@@ -23,6 +23,7 @@ with initial_cte as (select op.opportunity_id
 	, o.is_deleted 
 	, a.name as salesforce_account_name
 	, a.parent_account_id_18_c 
+	, a.unique_id_18_char_c 
 	, a.account_temperature_2_c 
 	, a.hv_industry_classification_c 
 	, a.billing_city 
@@ -114,6 +115,7 @@ right join month_year my on date_trunc('month',m.year_start_date) <= my.month_ye
 	, salesforce_account_name as customer_name
 	, sbcf_subscription_end_date_c
 	, parent_account_id_18_c
+	, unique_id_18_char_c 
 	, hv_industry_classification_c as industry_classification
 	, type as salesforce_type
 	, name as opportunity_name
@@ -136,6 +138,7 @@ where product_name not in ('coach', 'bundle', 'read only', 'professional service
 select month_year
 	, customer_name
 	, parent_account_id_18_c
+	, unique_id_18_char_c 
 	, industry_classification
 	, salesforce_type
 	, opportunity_name
@@ -155,7 +158,7 @@ select month_year
 	, round(sum(arr) / (datediff('days', year_start_date, year_end_date) / 30) * 12) as arr
 from dupe_destroyer
 where datediff('days', year_start_date, year_end_date) <> 0 and (datediff('days', year_start_date, year_end_date) / 30) <> 0 and ((mrr <> 0) or (product_name = 'coordinate'))
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
 order by 1, 2 asc
  
 
